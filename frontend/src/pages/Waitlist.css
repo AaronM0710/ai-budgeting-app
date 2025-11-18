@@ -1,0 +1,319 @@
+/* ===================================
+   COMIC BOOK WAITLIST PAGE
+   =================================== */
+
+.waitlist-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      var(--comic-red),
+      var(--comic-red) 30px,
+      var(--comic-blue) 30px,
+      var(--comic-blue) 60px
+    );
+  position: relative;
+  overflow: hidden;
+}
+
+.waitlist-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(circle, var(--comic-black) 2px, transparent 2px);
+  background-size: 20px 20px;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+.waitlist-card {
+  background: var(--comic-white);
+  padding: 50px 40px;
+  border: var(--border-thick);
+  box-shadow: 12px 12px 0 var(--comic-black);
+  max-width: 600px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.waitlist-card::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: var(--comic-yellow);
+  border: var(--border-thick);
+  z-index: -1;
+}
+
+.waitlist-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.waitlist-header h1 {
+  margin: 0 0 10px 0;
+  font-size: 64px;
+  font-family: var(--font-hero);
+  color: var(--comic-red);
+  text-shadow:
+    4px 4px 0 var(--comic-black),
+    -2px -2px 0 var(--comic-yellow);
+  transform: rotate(-2deg);
+}
+
+.tagline {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--comic-black);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.features-preview {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin: 30px 0;
+}
+
+.feature-badge {
+  background: var(--comic-blue);
+  color: var(--comic-white);
+  padding: 8px 16px;
+  border: var(--border-medium);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  box-shadow: 3px 3px 0 var(--comic-black);
+  transform: rotate(-1deg);
+}
+
+.feature-badge:nth-child(2) {
+  transform: rotate(1deg);
+  background: var(--comic-green);
+}
+
+.feature-badge:nth-child(3) {
+  transform: rotate(-2deg);
+  background: var(--comic-orange);
+}
+
+.waitlist-pitch {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.waitlist-pitch h2 {
+  font-family: var(--font-hero);
+  font-size: 36px;
+  color: var(--comic-black);
+  margin: 0 0 15px 0;
+  text-transform: uppercase;
+}
+
+.waitlist-pitch p {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--comic-black);
+  line-height: 1.5;
+}
+
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border: var(--border-medium);
+  font-size: 16px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  background: var(--comic-white);
+  cursor: pointer;
+}
+
+.form-group select:focus {
+  outline: none;
+  border-color: var(--comic-blue);
+  box-shadow: 4px 4px 0 var(--comic-blue);
+  transform: translate(-2px, -2px);
+}
+
+.btn-waitlist {
+  margin-top: 10px;
+}
+
+.btn-waitlist::after {
+  content: ' 💥';
+}
+
+.waitlist-footer {
+  text-align: center;
+  margin-top: 30px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--comic-black);
+}
+
+.waitlist-footer a {
+  color: var(--comic-blue);
+  text-decoration: none;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.waitlist-footer a:hover {
+  color: var(--comic-red);
+}
+
+/* Success State */
+.waitlist-success-card {
+  background: var(--comic-white);
+  padding: 60px 40px;
+  border: var(--border-thick);
+  box-shadow: 12px 12px 0 var(--comic-black);
+  max-width: 700px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.waitlist-success-card::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: var(--comic-green);
+  border: var(--border-thick);
+  z-index: -1;
+}
+
+.success-explosion {
+  font-family: var(--font-hero);
+  font-size: 96px;
+  color: var(--comic-yellow);
+  text-shadow:
+    6px 6px 0 var(--comic-red),
+    12px 12px 0 var(--comic-black);
+  transform: rotate(-5deg);
+  margin-bottom: 20px;
+  animation: explode 0.5s ease-out;
+}
+
+@keyframes explode {
+  0% {
+    transform: scale(0) rotate(-5deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2) rotate(-5deg);
+  }
+  100% {
+    transform: scale(1) rotate(-5deg);
+    opacity: 1;
+  }
+}
+
+.waitlist-success-card h1 {
+  font-family: var(--font-hero);
+  font-size: 48px;
+  color: var(--comic-black);
+  margin: 0 0 10px 0;
+  text-transform: uppercase;
+}
+
+.success-subtitle {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--comic-black);
+  margin-bottom: 40px;
+}
+
+.position-badge {
+  background: var(--comic-yellow);
+  border: var(--border-thick);
+  padding: 30px;
+  margin: 30px 0;
+  box-shadow: 6px 6px 0 var(--comic-black);
+  transform: rotate(-2deg);
+}
+
+.position-label {
+  font-family: var(--font-display);
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--comic-black);
+  margin-bottom: 10px;
+}
+
+.position-number {
+  font-family: var(--font-hero);
+  font-size: 72px;
+  color: var(--comic-red);
+  text-shadow:
+    4px 4px 0 var(--comic-black);
+}
+
+.success-message {
+  margin: 30px 0;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--comic-black);
+  line-height: 1.8;
+}
+
+.success-message p {
+  margin: 10px 0;
+}
+
+.action-buttons {
+  margin-top: 40px;
+}
+
+.action-buttons .btn-primary {
+  display: inline-block;
+  text-decoration: none;
+  padding: 16px 32px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .waitlist-card,
+  .waitlist-success-card {
+    padding: 30px 20px;
+  }
+
+  .waitlist-header h1 {
+    font-size: 48px;
+  }
+
+  .waitlist-pitch h2 {
+    font-size: 28px;
+  }
+
+  .success-explosion {
+    font-size: 64px;
+  }
+
+  .position-number {
+    font-size: 56px;
+  }
+}

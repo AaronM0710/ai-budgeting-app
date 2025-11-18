@@ -1,0 +1,224 @@
+/* ===================================
+   COMIC BOOK DESIGN SYSTEM
+   =================================== */
+
+/* Color Palette */
+:root {
+  --comic-red: #ED1C24;
+  --comic-blue: #0066CC;
+  --comic-yellow: #FFD100;
+  --comic-black: #000000;
+  --comic-white: #FFFEF7;
+  --comic-green: #00A652;
+  --comic-orange: #FF6600;
+  --comic-purple: #662D91;
+  --comic-gray: #CCCCCC;
+
+  /* Typography */
+  --font-hero: 'Bangers', cursive;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'Comic Neue', cursive;
+
+  /* Border */
+  --border-thick: 4px solid var(--comic-black);
+  --border-medium: 3px solid var(--comic-black);
+  --border-thin: 2px solid var(--comic-black);
+
+  /* Shadow */
+  --shadow-comic: 6px 6px 0 var(--comic-black);
+  --shadow-comic-hover: 8px 8px 0 var(--comic-black);
+  --shadow-comic-small: 4px 4px 0 var(--comic-black);
+}
+
+/* Global Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--comic-white);
+  color: var(--comic-black);
+}
+
+/* Halftone Pattern Background */
+.halftone-bg {
+  background-color: var(--comic-blue);
+  background-image:
+    radial-gradient(circle, var(--comic-black) 1px, transparent 1px);
+  background-size: 8px 8px;
+  opacity: 0.1;
+}
+
+/* Comic Panel Styling */
+.comic-panel {
+  background: var(--comic-white);
+  border: var(--border-thick);
+  box-shadow: var(--shadow-comic);
+  position: relative;
+}
+
+/* Comic Button Base */
+.comic-button {
+  font-family: var(--font-display);
+  font-size: 18px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border: var(--border-thick);
+  background: var(--comic-yellow);
+  color: var(--comic-black);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: var(--shadow-comic-small);
+  font-weight: bold;
+}
+
+.comic-button:hover:not(:disabled) {
+  transform: translate(-2px, -2px) rotate(-1deg);
+  box-shadow: var(--shadow-comic-hover);
+}
+
+.comic-button:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--comic-black);
+}
+
+.comic-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Speech Bubble */
+.speech-bubble {
+  position: relative;
+  background: var(--comic-white);
+  border: var(--border-medium);
+  border-radius: 20px;
+  padding: 15px 20px;
+}
+
+.speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 30px;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-top-color: var(--comic-black);
+  border-bottom: 0;
+  margin-left: -10px;
+}
+
+.speech-bubble::before {
+  content: '';
+  position: absolute;
+  bottom: -16px;
+  left: 30px;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-top-color: var(--comic-white);
+  border-bottom: 0;
+  margin-left: -10px;
+}
+
+/* Action Words */
+.action-word {
+  font-family: var(--font-hero);
+  font-size: 48px;
+  color: var(--comic-red);
+  text-shadow:
+    3px 3px 0 var(--comic-yellow),
+    6px 6px 0 var(--comic-black);
+  transform: rotate(-5deg);
+  display: inline-block;
+}
+
+/* Comic Typography */
+h1, h2, h3 {
+  font-family: var(--font-hero);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.comic-text-hero {
+  font-family: var(--font-hero);
+  font-size: 56px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.comic-text-display {
+  font-family: var(--font-display);
+  font-size: 32px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Loading State */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: var(--font-hero);
+  font-size: 48px;
+  color: var(--comic-red);
+  animation: pulse 1s infinite;
+}
+
+.loading::after {
+  content: '...';
+  animation: dots 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes dots {
+  0%, 20% { content: '.'; }
+  40% { content: '..'; }
+  60%, 100% { content: '...'; }
+}
+
+/* Not Found */
+.not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: var(--font-hero);
+  font-size: 72px;
+  color: var(--comic-black);
+}
+
+.not-found::before {
+  content: 'POW!';
+  font-size: 96px;
+  color: var(--comic-red);
+  text-shadow:
+    4px 4px 0 var(--comic-yellow),
+    8px 8px 0 var(--comic-black);
+  margin-bottom: 20px;
+}
+
+/* Utility Classes */
+.skew-left {
+  transform: skew(-5deg);
+}
+
+.skew-right {
+  transform: skew(5deg);
+}
+
+.rotate-slight {
+  transform: rotate(-2deg);
+}

@@ -1,0 +1,327 @@
+/* ===================================
+   COMIC BOOK AUTH PAGES
+   =================================== */
+
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background:
+    repeating-linear-gradient(
+      45deg,
+      var(--comic-yellow),
+      var(--comic-yellow) 20px,
+      var(--comic-orange) 20px,
+      var(--comic-orange) 40px
+    );
+  position: relative;
+  overflow: hidden;
+}
+
+/* Halftone overlay */
+.auth-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(circle, var(--comic-black) 1.5px, transparent 1.5px);
+  background-size: 12px 12px;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.auth-card {
+  background: var(--comic-white);
+  padding: 40px;
+  border: var(--border-thick);
+  box-shadow: 10px 10px 0 var(--comic-black);
+  max-width: 500px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  transform: rotate(-1deg);
+}
+
+.auth-card::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  background: var(--comic-red);
+  border: var(--border-thick);
+  z-index: -1;
+}
+
+.auth-card h1 {
+  margin: 0 0 5px 0;
+  color: var(--comic-black);
+  font-size: 48px;
+  font-family: var(--font-hero);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-shadow:
+    3px 3px 0 var(--comic-yellow);
+}
+
+.subtitle {
+  margin: 0 0 30px 0;
+  color: var(--comic-black);
+  font-size: 16px;
+  font-family: var(--font-body);
+  font-weight: 700;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--comic-black);
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-family: var(--font-display);
+  letter-spacing: 1px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  border: var(--border-medium);
+  font-size: 16px;
+  font-family: var(--font-body);
+  background: var(--comic-white);
+  transition: all 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--comic-blue);
+  box-shadow: 4px 4px 0 var(--comic-blue);
+  transform: translate(-2px, -2px);
+}
+
+.form-group small {
+  display: block;
+  margin-top: 5px;
+  color: var(--comic-black);
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-body);
+}
+
+.checkbox-group {
+  margin: 25px 0;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+  margin-right: 10px;
+  margin-top: 2px;
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  border: var(--border-medium);
+}
+
+.checkbox-label span {
+  font-size: 13px;
+  color: var(--comic-black);
+  font-weight: 700;
+}
+
+.checkbox-label a {
+  color: var(--comic-blue);
+  text-decoration: none;
+  font-weight: 700;
+  position: relative;
+}
+
+.checkbox-label a:hover {
+  color: var(--comic-red);
+}
+
+.checkbox-label a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--comic-black);
+  transform: scaleX(0);
+  transition: transform 0.2s;
+}
+
+.checkbox-label a:hover::after {
+  transform: scaleX(1);
+}
+
+.disclaimer {
+  background: var(--comic-yellow);
+  border: var(--border-medium);
+  padding: 15px;
+  margin: 20px 0;
+  font-size: 13px;
+  color: var(--comic-black);
+  font-weight: 700;
+  position: relative;
+  box-shadow: 4px 4px 0 var(--comic-black);
+}
+
+.disclaimer::before {
+  content: '⚠️';
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.disclaimer strong {
+  text-transform: uppercase;
+  font-family: var(--font-display);
+  letter-spacing: 1px;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 16px;
+  background: var(--comic-yellow);
+  color: var(--comic-black);
+  border: var(--border-thick);
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 6px 6px 0 var(--comic-black);
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 10px,
+    rgba(255, 255, 255, 0.1) 10px,
+    rgba(255, 255, 255, 0.1) 20px
+  );
+  transition: left 0.3s;
+}
+
+.btn-primary:hover:not(:disabled)::before {
+  left: 100%;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translate(-3px, -3px) rotate(-1deg);
+  box-shadow: 9px 9px 0 var(--comic-black);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 var(--comic-black);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: grayscale(50%);
+}
+
+.error-message {
+  background: var(--comic-red);
+  color: var(--comic-white);
+  padding: 12px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  font-weight: 700;
+  border: var(--border-medium);
+  box-shadow: 4px 4px 0 var(--comic-black);
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.error-message::before {
+  content: 'ERROR! ';
+  font-family: var(--font-hero);
+  font-size: 16px;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 25px;
+  color: var(--comic-black);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.auth-footer a {
+  color: var(--comic-blue);
+  text-decoration: none;
+  font-weight: 700;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  transition: color 0.2s;
+}
+
+.auth-footer a:hover {
+  color: var(--comic-red);
+}
+
+.auth-footer a::after {
+  content: '→';
+  margin-left: 5px;
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+.auth-footer a:hover::after {
+  transform: translateX(5px);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .auth-card {
+    padding: 30px 20px;
+  }
+
+  .auth-card h1 {
+    font-size: 36px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
