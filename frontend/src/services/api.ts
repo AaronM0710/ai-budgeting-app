@@ -119,4 +119,45 @@ export const uploadService = {
   },
 };
 
+// ===== TRANSACTIONS =====
+
+export const transactionService = {
+  /**
+   * Process uploaded file to extract transactions
+   */
+  processFile: async (fileId: string): Promise<{ transactionsCount: number }> => {
+    const response = await api.post(`/transactions/process/${fileId}`);
+    return response.data;
+  },
+
+  /**
+   * Get user's transactions
+   */
+  getTransactions: async (month?: number, year?: number, category?: string) => {
+    const params = new URLSearchParams();
+    if (month) params.append('month', month.toString());
+    if (year) params.append('year', year.toString());
+    if (category) params.append('category', category);
+
+    const response = await api.get(`/transactions?${params.toString()}`);
+    return response.data.transactions;
+  },
+
+  /**
+   * Get budget recommendations
+   */
+  getBudget: async (month: number, year: number) => {
+    const response = await api.get(`/transactions/budget/${month}/${year}`);
+    return response.data;
+  },
+
+  /**
+   * Get analytics
+   */
+  getAnalytics: async (month: number, year: number) => {
+    const response = await api.get(`/transactions/analytics/${month}/${year}`);
+    return response.data;
+  },
+};
+
 export default api;

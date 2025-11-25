@@ -1,0 +1,224 @@
+/* Budget Page Styles */
+
+.budget-container {
+  min-height: 100vh;
+  background: var(--comic-white);
+}
+
+.budget-header {
+  background: var(--comic-blue);
+  border-bottom: var(--border-thick);
+  padding: 30px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 6px 0 var(--comic-black);
+}
+
+.budget-header h1 {
+  font-family: var(--font-hero);
+  font-size: 48px;
+  color: var(--comic-yellow);
+  margin: 0;
+  text-shadow: 4px 4px 0 var(--comic-black);
+}
+
+.budget-main {
+  padding: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.budget-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.summary-item {
+  background: var(--comic-white);
+  border: var(--border-thick);
+  padding: 30px;
+  text-align: center;
+  box-shadow: 6px 6px 0 var(--comic-black);
+  transform: rotate(1deg);
+  position: relative;
+}
+
+.summary-label {
+  font-family: var(--font-display);
+  font-size: 16px;
+  text-transform: uppercase;
+  color: var(--comic-black);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.summary-value {
+  font-family: var(--font-hero);
+  font-size: 42px;
+  margin: 10px 0;
+}
+
+.summary-value.income {
+  color: #2ECC71;
+}
+
+.summary-value.expense {
+  color: var(--comic-red);
+}
+
+.summary-value.savings {
+  color: var(--comic-blue);
+}
+
+.ai-insights {
+  background: var(--comic-yellow);
+  border: var(--border-thick);
+  padding: 30px;
+  margin-bottom: 40px;
+  box-shadow: 8px 8px 0 var(--comic-black);
+  transform: rotate(-1deg);
+}
+
+.ai-insights h2 {
+  font-family: var(--font-hero);
+  font-size: 32px;
+  color: var(--comic-black);
+  margin: 0 0 20px 0;
+}
+
+.insights-box {
+  background: var(--comic-white);
+  border: var(--border-medium);
+  padding: 20px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  line-height: 1.8;
+}
+
+.budget-recommendations h2 {
+  font-family: var(--font-hero);
+  font-size: 36px;
+  color: var(--comic-black);
+  margin-bottom: 30px;
+}
+
+.recommendations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.recommendation-card {
+  background: var(--comic-white);
+  border: var(--border-thick);
+  padding: 25px;
+  box-shadow: 6px 6px 0 var(--comic-black);
+  transform: rotate(-0.5deg);
+}
+
+.recommendation-card h3 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  color: var(--comic-red);
+  margin: 0 0 20px 0;
+  text-transform: uppercase;
+}
+
+.rec-amounts {
+  margin-bottom: 15px;
+}
+
+.amount-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-family: var(--font-body);
+  font-weight: 700;
+}
+
+.amount-label {
+  color: var(--comic-black);
+}
+
+.amount-value {
+  color: var(--comic-red);
+}
+
+.amount-value.recommended {
+  color: #2ECC71;
+}
+
+.rec-reasoning {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--comic-black);
+  margin: 15px 0;
+  padding: 15px;
+  background: var(--comic-gray);
+  border: 2px solid var(--comic-black);
+}
+
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background: var(--comic-gray);
+  border: var(--border-medium);
+  margin-top: 15px;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.budget-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.empty-budget {
+  text-align: center;
+  padding: 100px 40px;
+}
+
+.empty-budget h2 {
+  font-family: var(--font-hero);
+  font-size: 48px;
+  color: var(--comic-black);
+  margin-bottom: 20px;
+}
+
+.empty-budget p {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--comic-black);
+  margin-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+  .budget-header {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .budget-main {
+    padding: 20px;
+  }
+
+  .recommendations-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .budget-actions {
+    flex-direction: column;
+  }
+}

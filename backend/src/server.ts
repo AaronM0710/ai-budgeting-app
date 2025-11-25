@@ -13,6 +13,7 @@ import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes';
 import uploadRoutes from './routes/uploadRoutes';
 import waitlistRoutes from './routes/waitlistRoutes';
+import transactionRoutes from './routes/transactionRoutes';
 import { pool } from './config/database';
 
 // Load environment variables
@@ -56,6 +57,7 @@ app.get('/health', (req: Request, res: Response) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/waitlist', waitlistRoutes);
+app.use('/api/transactions', transactionRoutes);
 
 // 404 handler for undefined routes
 app.use((req: Request, res: Response) => {

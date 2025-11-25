@@ -8,8 +8,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { uploadService } from '../services/api';
+import { uploadService, transactionService } from '../services/api';
 import { UploadedFile } from '../types';
+import { Link } from 'react-router-dom';
 import './Dashboard.css';
 
 const DashboardPage: React.FC = () => {
@@ -97,6 +98,21 @@ const DashboardPage: React.FC = () => {
     }
   };
 
+  const handleProcessFile = async (fileId: string, filename: string) => {
+    if (!window.confirm(`Process "${filename}" to extract transactions?`)) {
+      return;
+    }
+
+    try {
+      setSuccess('Processing file...');
+      const result = await transactionService.processFile(fileId);
+      setSuccess(`Extracted ${result.transactionsCount} transactions! Check Analytics to view them.`);
+      await loadFiles();
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Failed to process file');
+    }
+  };
+
   return (
     <div className="dashboard-container">
       {/* Header */}
@@ -171,6 +187,15 @@ const DashboardPage: React.FC = () => {
                     <span className={`status-badge status-${file.status}`}>
                       {file.status.toUpperCase()}
                     </span>
+                    {file.status === 'pending' && (
+                      <button
+                        onClick={() => handleProcessFile(file.id, file.filename)}
+                        className="btn-process"
+                        title="Process file"
+                      >
+                        ⚡
+                      </button>
+                    )}
                     <button
                       onClick={() => handleDelete(file.id, file.filename)}
                       className="btn-delete"
@@ -185,15 +210,21 @@ const DashboardPage: React.FC = () => {
           )}
         </section>
 
-        {/* Phase 2 Teaser */}
-        <section className="coming-soon">
-          <h3>Coming Soon</h3>
-          <ul>
-            <li>AI-powered transaction categorization</li>
-            <li>Personalized budget recommendations</li>
-            <li>Interactive spending charts</li>
-            <li>Monthly financial insights</li>
-          </ul>
+        {/* Quick Actions */}
+        <section className="quick-actions">
+          <h2>Quick Actions</h2>
+          <div className="action-cards">
+            <Link to="/analytics" className="action-card">
+              <span className="action-icon">📊</span>
+              <h3>View Analytics</h3>
+              <p>See your spending breakdown and insights</p>
+            </Link>
+            <Link to="/budget" className="action-card">
+              <span className="action-icon">💰</span>
+              <h3>Budget Planner</h3>
+              <p>Get AI-powered budget recommendations</p>
+            </Link>
+          </div>
         </section>
       </main>
     </div>

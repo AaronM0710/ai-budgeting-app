@@ -108,3 +108,34 @@ CREATE TABLE IF NOT EXISTS waitlist (
 
 CREATE INDEX IF NOT EXISTS idx_waitlist_email ON waitlist(email);
 CREATE INDEX IF NOT EXISTS idx_waitlist_created_at ON waitlist(created_at);
+
+-- Categories Table
+-- Predefined and custom spending categories
+CREATE TABLE IF NOT EXISTS categories (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name VARCHAR(100) NOT NULL,
+    parent_category VARCHAR(100),
+    icon VARCHAR(50),
+    color VARCHAR(20),
+    is_default BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX IF NOT EXISTS idx_categories_name ON categories(name);
+
+-- Monthly Insights Table
+-- AI-generated insights about spending patterns
+CREATE TABLE IF NOT EXISTS monthly_insights (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    month INTEGER NOT NULL,
+    year INTEGER NOT NULL,
+    insights JSONB, -- AI-generated insights as JSON
+    trends JSONB, -- Spending trends
+    recommendations JSONB, -- AI recommendations
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(user_id, month, year)
+);
+
+CREATE INDEX IF NOT EXISTS idx_monthly_insights_user_id ON monthly_insights(user_id);
+CREATE INDEX IF NOT EXISTS idx_monthly_insights_date ON monthly_insights(year, month);

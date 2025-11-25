@@ -1,0 +1,316 @@
+/* ===================================
+   ANALYTICS PAGE - COMIC BOOK STYLE
+   =================================== */
+
+.analytics-container {
+  min-height: 100vh;
+  background: var(--comic-white);
+}
+
+.analytics-header {
+  background: var(--comic-red);
+  border-bottom: var(--border-thick);
+  padding: 30px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 6px 0 var(--comic-black);
+}
+
+.analytics-header h1 {
+  font-family: var(--font-hero);
+  font-size: 48px;
+  color: var(--comic-yellow);
+  margin: 0;
+  text-shadow: 4px 4px 0 var(--comic-black);
+}
+
+.header-actions {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.month-selector,
+.year-selector {
+  padding: 10px 15px;
+  border: var(--border-medium);
+  background: var(--comic-white);
+  font-family: var(--font-body);
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 var(--comic-black);
+}
+
+.analytics-main {
+  padding: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Summary Cards */
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.summary-card {
+  background: var(--comic-white);
+  border: var(--border-thick);
+  padding: 30px;
+  text-align: center;
+  box-shadow: 6px 6px 0 var(--comic-black);
+  transform: rotate(-1deg);
+  position: relative;
+}
+
+.summary-card::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  background: var(--comic-yellow);
+  border: var(--border-thick);
+  z-index: -1;
+}
+
+.summary-icon {
+  font-size: 48px;
+  margin-bottom: 15px;
+}
+
+.summary-value {
+  font-family: var(--font-hero);
+  font-size: 36px;
+  color: var(--comic-red);
+  margin: 10px 0;
+}
+
+.summary-label {
+  font-family: var(--font-display);
+  font-size: 16px;
+  text-transform: uppercase;
+  color: var(--comic-black);
+  font-weight: 700;
+}
+
+/* Chart Sections */
+.chart-section {
+  background: var(--comic-white);
+  border: var(--border-thick);
+  padding: 30px;
+  margin-bottom: 40px;
+  box-shadow: 8px 8px 0 var(--comic-black);
+  position: relative;
+}
+
+.chart-section::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  background: var(--comic-blue);
+  border: var(--border-thick);
+  z-index: -1;
+}
+
+.chart-section h2 {
+  font-family: var(--font-hero);
+  font-size: 32px;
+  color: var(--comic-black);
+  margin: 0 0 20px 0;
+  text-transform: uppercase;
+}
+
+.chart-container {
+  background: var(--comic-white);
+  padding: 20px;
+  border: 3px solid var(--comic-black);
+}
+
+/* Top Expenses */
+.top-expenses-section {
+  background: var(--comic-white);
+  border: var(--border-thick);
+  padding: 30px;
+  margin-bottom: 40px;
+  box-shadow: 8px 8px 0 var(--comic-black);
+  position: relative;
+}
+
+.top-expenses-section::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  background: var(--comic-red);
+  border: var(--border-thick);
+  z-index: -1;
+}
+
+.top-expenses-section h2 {
+  font-family: var(--font-hero);
+  font-size: 32px;
+  color: var(--comic-black);
+  margin: 0 0 20px 0;
+  text-transform: uppercase;
+}
+
+.expenses-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.expense-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: var(--comic-white);
+  border: var(--border-medium);
+  padding: 15px 20px;
+  box-shadow: 4px 4px 0 var(--comic-black);
+  transition: all 0.15s ease;
+}
+
+.expense-item:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--comic-black);
+}
+
+.expense-rank {
+  font-family: var(--font-hero);
+  font-size: 24px;
+  color: var(--comic-red);
+  min-width: 50px;
+}
+
+.expense-details {
+  flex: 1;
+}
+
+.expense-description {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--comic-black);
+  margin-bottom: 5px;
+}
+
+.expense-meta {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--comic-black);
+  display: flex;
+  gap: 10px;
+}
+
+.expense-category {
+  background: var(--comic-yellow);
+  padding: 2px 8px;
+  border: 2px solid var(--comic-black);
+  font-weight: 700;
+}
+
+.expense-amount {
+  font-family: var(--font-hero);
+  font-size: 24px;
+  color: var(--comic-red);
+}
+
+/* Analytics Actions */
+.analytics-actions {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.action-btn {
+  background: var(--comic-yellow);
+  color: var(--comic-black);
+  border: var(--border-thick);
+  padding: 16px 32px;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+  box-shadow: 6px 6px 0 var(--comic-black);
+  transition: all 0.15s ease;
+  transform: rotate(-1deg);
+  display: inline-block;
+}
+
+.action-btn:hover {
+  transform: rotate(-1deg) translate(-3px, -3px);
+  box-shadow: 9px 9px 0 var(--comic-black);
+}
+
+.action-btn:active {
+  transform: rotate(-1deg) translate(0, 0);
+  box-shadow: 3px 3px 0 var(--comic-black);
+}
+
+/* Empty State */
+.empty-analytics {
+  text-align: center;
+  padding: 100px 40px;
+}
+
+.empty-analytics h2 {
+  font-family: var(--font-hero);
+  font-size: 48px;
+  color: var(--comic-black);
+  margin-bottom: 20px;
+}
+
+.empty-analytics p {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--comic-black);
+  margin-bottom: 30px;
+}
+
+.loading-state {
+  text-align: center;
+  padding: 100px 40px;
+  font-family: var(--font-hero);
+  font-size: 48px;
+  color: var(--comic-black);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .analytics-header {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .header-actions {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .analytics-main {
+    padding: 20px;
+  }
+
+  .summary-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .analytics-actions {
+    flex-direction: column;
+  }
+}
