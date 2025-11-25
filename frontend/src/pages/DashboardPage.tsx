@@ -20,6 +20,7 @@ const DashboardPage: React.FC = () => {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [shake, setShake] = useState(false);
 
   // Load user's files when component mounts
   useEffect(() => {
@@ -44,7 +45,9 @@ const DashboardPage: React.FC = () => {
 
   const handleUpload = async () => {
     if (!selectedFile) {
-      setError('Please select a file first');
+      setError('⚠️ WHOA THERE! Choose a file first, hotshot! 💥');
+      setShake(true);
+      setTimeout(() => setShake(false), 500);
       return;
     }
 
@@ -149,8 +152,7 @@ const DashboardPage: React.FC = () => {
 
             <button
               onClick={handleUpload}
-              disabled={!selectedFile || uploading}
-              className="btn-primary"
+              className={`btn-primary ${shake ? 'shake' : ''}`}
             >
               {uploading ? 'Uploading...' : 'Upload'}
             </button>
