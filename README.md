@@ -1,6 +1,6 @@
-# AI Budgeting App
+# Budget BOOM! 💥
 
-A secure, AI-powered personal budgeting application that analyzes bank statements and generates personalized budgets.
+AI-powered budgeting that actually works. Track spending, get smart insights, and build better financial habits with comic book style.
 
 ## Architecture Overview
 
