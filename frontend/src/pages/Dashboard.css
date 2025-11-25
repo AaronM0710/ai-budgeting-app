@@ -176,6 +176,10 @@ section h2 {
   font-family: var(--font-body);
   font-weight: 700;
   font-size: 14px;
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+  display: block;
 }
 
 .file-label:hover {
@@ -188,6 +192,8 @@ section h2 {
 .upload-box .btn-primary {
   width: auto;
   min-width: 150px;
+  position: relative;
+  z-index: 10;
 }
 
 .info-box {
