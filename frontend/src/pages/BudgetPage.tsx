@@ -11,28 +11,28 @@ import { Link } from 'react-router-dom';
 import './Budget.css';
 
 const BudgetPage: React.FC = () => {
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
   const [budget, setBudget] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
   useEffect(() => {
+    const loadBudget = async () => {
+      try {
+        setLoading(true);
+        const budgetData = await transactionService.getBudget(selectedMonth, selectedYear);
+        setBudget(budgetData);
+      } catch (error: any) {
+        console.error('Failed to load budget:', error);
+        setBudget(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     loadBudget();
   }, [selectedMonth, selectedYear]);
-
-  const loadBudget = async () => {
-    try {
-      setLoading(true);
-      const budgetData = await transactionService.getBudget(selectedMonth, selectedYear);
-      setBudget(budgetData);
-    } catch (error: any) {
-      console.error('Failed to load budget:', error);
-      setBudget(null);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {

@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import './Analytics.css';
 
 const AnalyticsPage: React.FC = () => {
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
   const [analytics, setAnalytics] = useState<any>(null);
   const [transactions, setTransactions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -22,24 +22,24 @@ const AnalyticsPage: React.FC = () => {
   const COLORS = ['#ED1C24', '#0066CC', '#FFD100', '#4ECDC4', '#95E1D3', '#F38181', '#AA96DA', '#FCBAD3'];
 
   useEffect(() => {
+    const loadAnalytics = async () => {
+      try {
+        setLoading(true);
+        const [analyticsData, transactionsData] = await Promise.all([
+          transactionService.getAnalytics(selectedMonth, selectedYear),
+          transactionService.getTransactions(selectedMonth, selectedYear),
+        ]);
+        setAnalytics(analyticsData);
+        setTransactions(transactionsData);
+      } catch (error) {
+        console.error('Failed to load analytics:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     loadAnalytics();
   }, [selectedMonth, selectedYear]);
-
-  const loadAnalytics = async () => {
-    try {
-      setLoading(true);
-      const [analyticsData, transactionsData] = await Promise.all([
-        transactionService.getAnalytics(selectedMonth, selectedYear),
-        transactionService.getTransactions(selectedMonth, selectedYear),
-      ]);
-      setAnalytics(analyticsData);
-      setTransactions(transactionsData);
-    } catch (error) {
-      console.error('Failed to load analytics:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
