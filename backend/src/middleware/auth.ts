@@ -74,7 +74,8 @@ export const generateToken = (payload: JwtPayload): string => {
     throw new Error('JWT_SECRET is not configured');
   }
 
+  // @ts-ignore - TypeScript has issues with expiresIn string typing
   return jwt.sign(payload, jwtSecret, {
-    expiresIn: (process.env.JWT_EXPIRES_IN || '7d') as string,
-  } as jwt.SignOptions);
+    expiresIn: process.env.JWT_EXPIRES_IN || '7d',
+  });
 };

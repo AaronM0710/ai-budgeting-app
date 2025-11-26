@@ -4,7 +4,7 @@
  * Handles extraction of transactions from PDF and CSV files
  */
 
-import pdfParse from 'pdf-parse';
+const PDFParser = require('pdf2json');
 import fs from 'fs';
 import csv from 'csv-parser';
 import { Readable } from 'stream';
@@ -34,12 +34,30 @@ export class FileProcessorService {
    * Extract transactions from PDF using text extraction
    */
   private static async processPDF(filePath: string): Promise<ExtractedTransaction[]> {
-    const dataBuffer = fs.readFileSync(filePath);
-    const pdfData = await pdfParse(dataBuffer);
-    const text = pdfData.text;
+    return new Promise((resolve, reject) => {
+      const pdfParser = new PDFParser();
 
-    // Parse transactions from text
-    return this.parseTransactionsFromText(text);
+      pdfParser.on('pdfParser_dataError', (errData: any) => {
+        reject(new Error(errData.parserError));
+      });
+
+      pdfParser.on('pdfParser_dataReady', (pdfData: any) => {
+        // Extract text from PDF
+        let text = '';
+        pdfData.Pages.forEach((page: any) => {
+          page.Texts.forEach((textItem: any) => {
+            text += decodeURIComponent(textItem.R[0].T) + ' ';
+          });
+          text += '\n';
+        });
+
+        // Parse transactions from text
+        const transactions = this.parseTransactionsFromText(text);
+        resolve(transactions);
+      });
+
+      pdfParser.loadPDF(filePath);
+    });
   }
 
   /**
