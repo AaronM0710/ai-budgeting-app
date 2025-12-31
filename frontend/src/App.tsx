@@ -13,6 +13,7 @@ import DashboardPage from './pages/DashboardPage';
 import WaitlistPage from './pages/WaitlistPage';
 import AnalyticsPage from './pages/AnalyticsPage';
 import BudgetPage from './pages/BudgetPage';
+import LandingPage from './pages/LandingPage';
 import './App.css';
 
 // Protected Route Component
@@ -44,6 +45,7 @@ function AppRoutes() {
     <Router>
       <Routes>
         {/* Public Routes */}
+        <Route path="/home" element={<LandingPage />} />
         <Route path="/waitlist" element={<WaitlistPage />} />
         <Route
           path="/register"
@@ -89,7 +91,7 @@ function AppRoutes() {
         />
 
         {/* Default Route */}
-        <Route path="/" element={<Navigate to="/waitlist" />} />
+        <Route path="/" element={<Navigate to="/home" />} />
 
         {/* 404 - Not Found */}
         <Route path="*" element={<div className="not-found">Page not found</div>} />
