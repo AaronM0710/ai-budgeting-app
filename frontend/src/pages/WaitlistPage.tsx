@@ -6,7 +6,6 @@
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import api from '../services/api';
 import './Waitlist.css';
 
 const WaitlistPage: React.FC = () => {
@@ -34,11 +33,21 @@ const WaitlistPage: React.FC = () => {
     setLoading(true);
 
     try {
-      const response = await api.post('/waitlist', formData);
+      const response = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to join waitlist');
+      }
+
       setSuccess(true);
-      setPosition(response.data.waitlist_position);
+      setPosition(data.waitlist_position);
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to join waitlist');
+      setError(err.message || 'Failed to join waitlist');
     } finally {
       setLoading(false);
     }

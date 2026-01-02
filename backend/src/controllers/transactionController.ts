@@ -73,6 +73,11 @@ export class TransactionController {
           const transaction = extractedTransactions[i];
           const category = categorized[i];
 
+          // Truncate description to fit database constraint (500 chars)
+          const description = transaction.description.length > 500
+            ? transaction.description.substring(0, 497) + '...'
+            : transaction.description;
+
           await query(
             `INSERT INTO transactions
              (user_id, file_id, transaction_date, description, amount, category, subcategory, is_income)
@@ -81,7 +86,7 @@ export class TransactionController {
               req.user.userId,
               fileId,
               transaction.date,
-              transaction.description,
+              description,
               transaction.amount,
               category.category,
               category.subcategory || null,
