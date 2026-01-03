@@ -1,0 +1,158 @@
+/* ===================================
+   PLAIN LEGAL PAGES (Terms, Privacy)
+   Professional legal document styling
+   =================================== */
+
+.legal-container {
+  min-height: 100vh;
+  padding: 60px 20px;
+  background: #ffffff;
+  font-family: 'Times New Roman', Times, Georgia, serif;
+}
+
+.legal-card {
+  max-width: 800px;
+  margin: 0 auto;
+  background: #ffffff;
+  padding: 40px;
+  line-height: 1.6;
+}
+
+.back-link {
+  display: inline-block;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #0066cc;
+  text-decoration: none;
+  margin-bottom: 40px;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.legal-card h1 {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 28px;
+  font-weight: bold;
+  color: #000000;
+  margin: 0 0 10px 0;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.last-updated {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  color: #666666;
+  text-align: center;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #cccccc;
+}
+
+.legal-content {
+  font-size: 14px;
+  color: #333333;
+}
+
+.legal-content section {
+  margin-bottom: 30px;
+}
+
+.legal-content h2 {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000000;
+  margin: 30px 0 15px 0;
+  text-transform: uppercase;
+}
+
+.legal-content h3 {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 14px;
+  font-weight: bold;
+  color: #000000;
+  margin: 20px 0 10px 0;
+}
+
+.legal-content p {
+  margin: 0 0 12px 0;
+  text-align: justify;
+}
+
+.legal-content ul {
+  margin: 12px 0;
+  padding-left: 30px;
+}
+
+.legal-content li {
+  margin-bottom: 8px;
+}
+
+.legal-content strong {
+  font-weight: bold;
+}
+
+.legal-footer {
+  margin-top: 50px;
+  padding-top: 30px;
+  border-top: 1px solid #cccccc;
+  text-align: center;
+}
+
+.legal-footer p {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  color: #666666;
+  margin-bottom: 15px;
+}
+
+.legal-link {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.legal-link:hover {
+  text-decoration: underline;
+}
+
+/* Print styles for legal documents */
+@media print {
+  .legal-container {
+    padding: 0;
+  }
+
+  .back-link,
+  .legal-footer {
+    display: none;
+  }
+
+  .legal-card {
+    padding: 0;
+    max-width: 100%;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .legal-card {
+    padding: 20px;
+  }
+
+  .legal-card h1 {
+    font-size: 22px;
+  }
+
+  .legal-content {
+    font-size: 13px;
+  }
+
+  .legal-content p {
+    text-align: left;
+  }
+}

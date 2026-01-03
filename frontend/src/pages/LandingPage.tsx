@@ -33,7 +33,7 @@ const LandingPage: React.FC = () => {
             <span className="hero-highlight"> Finances</span>
           </h1>
           <p className="hero-subtitle">
-            Upload your bank statements and let AI do the heavy lifting.
+            Upload your bank statements and let us handle the rest.
             Smart categorization, actionable insights, and budget recommendations
             that actually make sense.
           </p>

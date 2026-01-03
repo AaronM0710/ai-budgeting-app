@@ -14,6 +14,8 @@ import WaitlistPage from './pages/WaitlistPage';
 import AnalyticsPage from './pages/AnalyticsPage';
 import BudgetPage from './pages/BudgetPage';
 import LandingPage from './pages/LandingPage';
+import TermsPage from './pages/TermsPage';
+import PrivacyPage from './pages/PrivacyPage';
 import './App.css';
 
 // Protected Route Component
@@ -47,6 +49,8 @@ function AppRoutes() {
         {/* Public Routes */}
         <Route path="/home" element={<LandingPage />} />
         <Route path="/waitlist" element={<WaitlistPage />} />
+        <Route path="/terms" element={<TermsPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
         <Route
           path="/register"
           element={
