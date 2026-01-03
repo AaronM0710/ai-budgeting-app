@@ -5,6 +5,12 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false }
 });
 
+// Validate email format
+function isValidEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
 module.exports = async (req, res) => {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -21,6 +27,10 @@ module.exports = async (req, res) => {
 
       if (!email) {
         return res.status(400).json({ error: 'Email is required' });
+      }
+
+      if (!isValidEmail(email)) {
+        return res.status(400).json({ error: 'Please enter a valid email address' });
       }
 
       // Check if already on waitlist
