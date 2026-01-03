@@ -286,12 +286,21 @@
 
 .action-buttons {
   margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
 }
 
-.action-buttons .btn-primary {
+.action-buttons .btn-primary,
+.action-buttons .btn-secondary {
   display: inline-block;
   text-decoration: none;
   padding: 16px 32px;
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+  box-sizing: border-box;
 }
 
 /* Responsive */
