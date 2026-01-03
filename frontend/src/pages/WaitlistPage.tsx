@@ -83,7 +83,10 @@ const WaitlistPage: React.FC = () => {
           </div>
 
           <div className="action-buttons">
-            <Link to="/login" className="btn-primary">
+            <Link to="/home" className="btn-primary">
+              ← Back to Home
+            </Link>
+            <Link to="/login" className="btn-secondary">
               Already Have Access? Login →
             </Link>
           </div>
