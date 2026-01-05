@@ -24,10 +24,10 @@ const LandingPage: React.FC = () => {
     <div className="landing-page">
       {/* Navigation */}
       <nav className="landing-nav">
-        <div className="nav-logo">
+        <Link to="/home" className="nav-logo">
           <span className="logo-text">Budget</span>
           <span className="logo-boom">BOOM!</span>
-        </div>
+        </Link>
 
         {/* Desktop Navigation */}
         <div className="nav-links nav-desktop">
