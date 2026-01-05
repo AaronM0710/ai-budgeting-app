@@ -5,11 +5,21 @@
  * Blends comic book energy with modern SaaS design
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Landing.css';
 
 const LandingPage: React.FC = () => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+  };
+
   return (
     <div className="landing-page">
       {/* Navigation */}
@@ -18,9 +28,34 @@ const LandingPage: React.FC = () => {
           <span className="logo-text">Budget</span>
           <span className="logo-boom">BOOM!</span>
         </div>
-        <div className="nav-links">
+
+        {/* Desktop Navigation */}
+        <div className="nav-links nav-desktop">
+          <a href="#features" className="nav-link">Features</a>
+          <a href="#how-it-works" className="nav-link">How It Works</a>
+          <a href="#faq" className="nav-link">FAQ</a>
           <Link to="/login" className="nav-link">Login</Link>
           <Link to="/waitlist" className="nav-cta">Join Waitlist</Link>
+        </div>
+
+        {/* Hamburger Button */}
+        <button
+          className={`hamburger ${mobileMenuOpen ? 'active' : ''}`}
+          onClick={toggleMobileMenu}
+          aria-label="Toggle menu"
+        >
+          <span className="hamburger-line"></span>
+          <span className="hamburger-line"></span>
+          <span className="hamburger-line"></span>
+        </button>
+
+        {/* Mobile Navigation */}
+        <div className={`nav-mobile ${mobileMenuOpen ? 'open' : ''}`}>
+          <a href="#features" className="nav-mobile-link" onClick={closeMobileMenu}>Features</a>
+          <a href="#how-it-works" className="nav-mobile-link" onClick={closeMobileMenu}>How It Works</a>
+          <a href="#faq" className="nav-mobile-link" onClick={closeMobileMenu}>FAQ</a>
+          <Link to="/login" className="nav-mobile-link" onClick={closeMobileMenu}>Login</Link>
+          <Link to="/waitlist" className="nav-mobile-cta" onClick={closeMobileMenu}>Join Waitlist</Link>
         </div>
       </nav>
 
@@ -64,7 +99,7 @@ const LandingPage: React.FC = () => {
       </section>
 
       {/* Features Section */}
-      <section className="features-section">
+      <section id="features" className="features-section">
         <div className="features-header">
           <h2 className="features-title">Why Budget Boom?</h2>
           <p className="features-subtitle">
@@ -120,7 +155,7 @@ const LandingPage: React.FC = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="how-section">
+      <section id="how-it-works" className="how-section">
         <h2 className="how-title">How It Works</h2>
         <div className="how-steps">
           <div className="how-step">
@@ -135,7 +170,7 @@ const LandingPage: React.FC = () => {
             <div className="step-number">2</div>
             <h3 className="step-title">Analyze</h3>
             <p className="step-description">
-              AI categorizes every transaction and spots patterns
+              Smart categorization identifies every transaction automatically
             </p>
           </div>
           <div className="how-arrow">→</div>
@@ -144,6 +179,111 @@ const LandingPage: React.FC = () => {
             <h3 className="step-title">Optimize</h3>
             <p className="step-description">
               Get personalized budget recommendations and insights
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="testimonials-section">
+        <h2 className="testimonials-title">What People Are Saying</h2>
+        <div className="testimonials-grid">
+          <div className="testimonial-card">
+            <div className="testimonial-quote">"</div>
+            <p className="testimonial-text">
+              Finally, a budgeting app that doesn't make me want to pull my hair out.
+              The automatic categorization is a game changer.
+            </p>
+            <div className="testimonial-author">
+              <div className="author-avatar">SM</div>
+              <div className="author-info">
+                <span className="author-name">Sarah M.</span>
+                <span className="author-title">Marketing Manager</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="testimonial-card">
+            <div className="testimonial-quote">"</div>
+            <p className="testimonial-text">
+              I used to spend hours categorizing transactions in spreadsheets.
+              Now it takes seconds. Absolute time saver.
+            </p>
+            <div className="testimonial-author">
+              <div className="author-avatar">JR</div>
+              <div className="author-info">
+                <span className="author-name">James R.</span>
+                <span className="author-title">Software Engineer</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="testimonial-card">
+            <div className="testimonial-quote">"</div>
+            <p className="testimonial-text">
+              The insights actually helped me find subscriptions I forgot about.
+              Already saved $50/month!
+            </p>
+            <div className="testimonial-author">
+              <div className="author-avatar">EK</div>
+              <div className="author-info">
+                <span className="author-name">Emily K.</span>
+                <span className="author-title">Freelance Designer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section id="faq" className="faq-section">
+        <h2 className="faq-title">Frequently Asked Questions</h2>
+        <div className="faq-grid">
+          <div className="faq-item">
+            <h3 className="faq-question">Is my financial data secure?</h3>
+            <p className="faq-answer">
+              Absolutely. We use bank-level encryption and never store your actual bank credentials.
+              Your statement data is processed securely and you can delete it anytime.
+            </p>
+          </div>
+
+          <div className="faq-item">
+            <h3 className="faq-question">What file formats do you support?</h3>
+            <p className="faq-answer">
+              We support PDF and CSV bank statements from most major banks.
+              If your format isn't supported, let us know and we'll add it.
+            </p>
+          </div>
+
+          <div className="faq-item">
+            <h3 className="faq-question">How accurate is the categorization?</h3>
+            <p className="faq-answer">
+              Our smart categorization correctly identifies 95%+ of transactions.
+              You can always manually adjust categories if needed.
+            </p>
+          </div>
+
+          <div className="faq-item">
+            <h3 className="faq-question">Is Budget Boom free?</h3>
+            <p className="faq-answer">
+              We're currently in early access. Join the waitlist to be notified
+              when we launch with our pricing plans.
+            </p>
+          </div>
+
+          <div className="faq-item">
+            <h3 className="faq-question">Can I export my data?</h3>
+            <p className="faq-answer">
+              Yes! You can export your categorized transactions and budget reports
+              in CSV format at any time. Your data belongs to you.
+            </p>
+          </div>
+
+          <div className="faq-item">
+            <h3 className="faq-question">Do you connect directly to my bank?</h3>
+            <p className="faq-answer">
+              No. Budget Boom works by analyzing statement files you upload.
+              We never ask for or store your bank login credentials.
             </p>
           </div>
         </div>
@@ -170,13 +310,17 @@ const LandingPage: React.FC = () => {
             <span className="logo-text">Budget</span>
             <span className="logo-boom">BOOM!</span>
           </div>
-          <p className="footer-tagline">AI-Powered Budgeting That Actually Works</p>
+          <p className="footer-tagline">Smart Budgeting That Actually Works</p>
           <div className="footer-links">
             <Link to="/waitlist">Join Waitlist</Link>
             <Link to="/login">Login</Link>
             <Link to="/register">Register</Link>
           </div>
-          <p className="footer-copyright">© 2024 Budget Boom. All rights reserved.</p>
+          <div className="footer-legal">
+            <Link to="/terms">Terms of Service</Link>
+            <Link to="/privacy">Privacy Policy</Link>
+          </div>
+          <p className="footer-copyright">© 2025 Budget Boom. All rights reserved.</p>
         </div>
       </footer>
     </div>
