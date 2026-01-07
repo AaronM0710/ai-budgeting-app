@@ -13,6 +13,7 @@ import DashboardPage from './pages/DashboardPage';
 import WaitlistPage from './pages/WaitlistPage';
 import AnalyticsPage from './pages/AnalyticsPage';
 import BudgetPage from './pages/BudgetPage';
+import TransactionsPage from './pages/TransactionsPage';
 import LandingPage from './pages/LandingPage';
 import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/PrivacyPage';
@@ -90,6 +91,14 @@ function AppRoutes() {
           element={
             <ProtectedRoute>
               <BudgetPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/transactions"
+          element={
+            <ProtectedRoute>
+              <TransactionsPage />
             </ProtectedRoute>
           }
         />

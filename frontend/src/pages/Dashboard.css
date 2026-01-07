@@ -577,6 +577,33 @@ section h2 {
   animation: violentShake 0.5s cubic-bezier(.36,.07,.19,.97) both;
 }
 
+/* Processing Indicator */
+.processing-indicator {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  background: var(--comic-blue);
+  color: var(--comic-white);
+  border: var(--border-medium);
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  animation: processingPulse 1.5s infinite;
+}
+
+@keyframes processingPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
 @keyframes violentShake {
   0%, 100% {
     transform: translate(0, 0) rotate(0deg);

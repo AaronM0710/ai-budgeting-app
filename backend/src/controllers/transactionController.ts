@@ -68,7 +68,10 @@ export class TransactionController {
           }))
         );
 
-        // Save transactions to database
+        // Save transactions to database (with duplicate detection)
+        let savedCount = 0;
+        let duplicateCount = 0;
+
         for (let i = 0; i < extractedTransactions.length; i++) {
           const transaction = extractedTransactions[i];
           const category = categorized[i];
@@ -77,6 +80,21 @@ export class TransactionController {
           const description = transaction.description.length > 500
             ? transaction.description.substring(0, 497) + '...'
             : transaction.description;
+
+          // Check for duplicate: same user, date, description, and amount
+          const duplicateCheck = await query(
+            `SELECT id FROM transactions
+             WHERE user_id = $1
+             AND transaction_date = $2
+             AND description = $3
+             AND amount = $4`,
+            [req.user.userId, transaction.date, description, transaction.amount]
+          );
+
+          if (duplicateCheck.rows.length > 0) {
+            duplicateCount++;
+            continue; // Skip duplicate
+          }
 
           await query(
             `INSERT INTO transactions
@@ -93,6 +111,7 @@ export class TransactionController {
               transaction.isIncome,
             ]
           );
+          savedCount++;
         }
 
         // Update file status to completed
@@ -101,9 +120,15 @@ export class TransactionController {
           ['completed', fileId]
         );
 
+        let message = `File processed successfully. Saved ${savedCount} transactions.`;
+        if (duplicateCount > 0) {
+          message += ` Skipped ${duplicateCount} duplicate(s).`;
+        }
+
         res.json({
-          message: 'File processed successfully',
-          transactionsCount: extractedTransactions.length,
+          message,
+          transactionsCount: savedCount,
+          duplicatesSkipped: duplicateCount,
         });
       } catch (error: any) {
         console.error('Processing error:', error);
@@ -244,6 +269,182 @@ export class TransactionController {
     } catch (error) {
       console.error('Get analytics error:', error);
       res.status(500).json({ error: 'Failed to retrieve analytics' });
+    }
+  }
+
+  /**
+   * Update a transaction (for manual category corrections)
+   * PUT /api/transactions/:transactionId
+   */
+  static async updateTransaction(req: Request, res: Response): Promise<void> {
+    try {
+      if (!req.user) {
+        res.status(401).json({ error: 'Not authenticated' });
+        return;
+      }
+
+      const { transactionId } = req.params;
+      const { category, subcategory, description } = req.body;
+
+      // Verify transaction belongs to user
+      const checkResult = await query(
+        'SELECT id FROM transactions WHERE id = $1 AND user_id = $2',
+        [transactionId, req.user.userId]
+      );
+
+      if (checkResult.rows.length === 0) {
+        res.status(404).json({ error: 'Transaction not found' });
+        return;
+      }
+
+      // Build update query dynamically
+      const updates: string[] = [];
+      const values: any[] = [];
+      let paramCount = 1;
+
+      if (category !== undefined) {
+        updates.push(`category = $${paramCount}`);
+        values.push(category);
+        paramCount++;
+      }
+
+      if (subcategory !== undefined) {
+        updates.push(`subcategory = $${paramCount}`);
+        values.push(subcategory);
+        paramCount++;
+      }
+
+      if (description !== undefined) {
+        updates.push(`description = $${paramCount}`);
+        values.push(description.substring(0, 500)); // Enforce limit
+        paramCount++;
+      }
+
+      if (updates.length === 0) {
+        res.status(400).json({ error: 'No fields to update' });
+        return;
+      }
+
+      updates.push(`updated_at = CURRENT_TIMESTAMP`);
+
+      values.push(transactionId);
+      const updateQuery = `UPDATE transactions SET ${updates.join(', ')} WHERE id = $${paramCount} RETURNING *`;
+
+      const result = await query(updateQuery, values);
+
+      res.json({
+        message: 'Transaction updated',
+        transaction: result.rows[0],
+      });
+    } catch (error) {
+      console.error('Update transaction error:', error);
+      res.status(500).json({ error: 'Failed to update transaction' });
+    }
+  }
+
+  /**
+   * Delete a transaction
+   * DELETE /api/transactions/:transactionId
+   */
+  static async deleteTransaction(req: Request, res: Response): Promise<void> {
+    try {
+      if (!req.user) {
+        res.status(401).json({ error: 'Not authenticated' });
+        return;
+      }
+
+      const { transactionId } = req.params;
+
+      const result = await query(
+        'DELETE FROM transactions WHERE id = $1 AND user_id = $2 RETURNING id',
+        [transactionId, req.user.userId]
+      );
+
+      if (result.rows.length === 0) {
+        res.status(404).json({ error: 'Transaction not found' });
+        return;
+      }
+
+      res.json({ message: 'Transaction deleted' });
+    } catch (error) {
+      console.error('Delete transaction error:', error);
+      res.status(500).json({ error: 'Failed to delete transaction' });
+    }
+  }
+
+  /**
+   * Export transactions as CSV
+   * GET /api/transactions/export
+   */
+  static async exportTransactions(req: Request, res: Response): Promise<void> {
+    try {
+      if (!req.user) {
+        res.status(401).json({ error: 'Not authenticated' });
+        return;
+      }
+
+      const { month, year } = req.query;
+
+      let queryStr = `
+        SELECT
+          transaction_date,
+          description,
+          amount,
+          category,
+          subcategory,
+          CASE WHEN is_income THEN 'Income' ELSE 'Expense' END as type
+        FROM transactions
+        WHERE user_id = $1
+      `;
+      const params: any[] = [req.user.userId];
+
+      if (month && year) {
+        queryStr += ' AND EXTRACT(MONTH FROM transaction_date) = $2 AND EXTRACT(YEAR FROM transaction_date) = $3';
+        params.push(parseInt(month as string), parseInt(year as string));
+      }
+
+      queryStr += ' ORDER BY transaction_date DESC';
+
+      const result = await query(queryStr, params);
+
+      // Build CSV
+      const headers = ['Date', 'Description', 'Amount', 'Category', 'Subcategory', 'Type'];
+      const csvRows = [headers.join(',')];
+
+      for (const row of result.rows) {
+        const values = [
+          row.transaction_date.toISOString().split('T')[0],
+          `"${(row.description || '').replace(/"/g, '""')}"`,
+          row.amount,
+          `"${row.category || ''}"`,
+          `"${row.subcategory || ''}"`,
+          row.type,
+        ];
+        csvRows.push(values.join(','));
+      }
+
+      const csv = csvRows.join('\n');
+
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader('Content-Disposition', `attachment; filename=transactions-${month || 'all'}-${year || 'all'}.csv`);
+      res.send(csv);
+    } catch (error) {
+      console.error('Export transactions error:', error);
+      res.status(500).json({ error: 'Failed to export transactions' });
+    }
+  }
+
+  /**
+   * Get available categories
+   * GET /api/transactions/categories
+   */
+  static async getCategories(req: Request, res: Response): Promise<void> {
+    try {
+      const result = await query('SELECT name, icon, color FROM categories WHERE is_default = true ORDER BY name');
+      res.json({ categories: result.rows });
+    } catch (error) {
+      console.error('Get categories error:', error);
+      res.status(500).json({ error: 'Failed to get categories' });
     }
   }
 }

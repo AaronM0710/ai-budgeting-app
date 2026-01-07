@@ -62,13 +62,33 @@ const AnalyticsPage: React.FC = () => {
         <header className="analytics-header">
           <h1>Analytics</h1>
           <div className="header-actions">
+            <select
+              value={selectedMonth}
+              onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
+              className="month-selector"
+            >
+              {Array.from({ length: 12 }, (_, i) => (
+                <option key={i + 1} value={i + 1}>
+                  {new Date(2024, i).toLocaleString('default', { month: 'long' })}
+                </option>
+              ))}
+            </select>
+            <select
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(parseInt(e.target.value))}
+              className="year-selector"
+            >
+              {[2024, 2025, 2026].map(year => (
+                <option key={year} value={year}>{year}</option>
+              ))}
+            </select>
             <Link to="/dashboard" className="btn-secondary">← Back to Dashboard</Link>
             <button onClick={logout} className="btn-secondary">Logout</button>
           </div>
         </header>
         <div className="empty-analytics">
-          <h2>No Transactions Yet</h2>
-          <p>Upload and process a bank statement to see your analytics!</p>
+          <h2>No Transactions for {new Date(2024, selectedMonth - 1).toLocaleString('default', { month: 'long' })} {selectedYear}</h2>
+          <p>Try selecting a different month/year, or upload and process a bank statement.</p>
           <Link to="/dashboard" className="btn-primary">Go to Dashboard</Link>
         </div>
       </div>

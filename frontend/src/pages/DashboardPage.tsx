@@ -18,6 +18,7 @@ const DashboardPage: React.FC = () => {
   const [files, setFiles] = useState<UploadedFile[]>([]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [processingFileId, setProcessingFileId] = useState<string | null>(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [shake, setShake] = useState(false);
@@ -107,12 +108,22 @@ const DashboardPage: React.FC = () => {
     }
 
     try {
-      setSuccess('Processing file...');
+      setError('');
+      setProcessingFileId(fileId);
+      setSuccess('Processing file... This may take a moment.');
       const result = await transactionService.processFile(fileId);
-      setSuccess(`Extracted ${result.transactionsCount} transactions! Check Analytics to view them.`);
+      let successMsg = `Saved ${result.transactionsCount} transactions!`;
+      if (result.duplicatesSkipped && result.duplicatesSkipped > 0) {
+        successMsg += ` (${result.duplicatesSkipped} duplicate(s) skipped)`;
+      }
+      successMsg += ' View them in the Transactions page.';
+      setSuccess(successMsg);
       await loadFiles();
     } catch (err: any) {
       setError(err.response?.data?.error || 'Failed to process file');
+      setSuccess('');
+    } finally {
+      setProcessingFileId(null);
     }
   };
 
@@ -189,7 +200,7 @@ const DashboardPage: React.FC = () => {
                     <span className={`status-badge status-${file.status}`}>
                       {file.status.toUpperCase()}
                     </span>
-                    {file.status === 'pending' && (
+                    {file.status === 'pending' && processingFileId !== file.id && (
                       <button
                         onClick={() => handleProcessFile(file.id, file.filename)}
                         className="btn-process"
@@ -197,6 +208,11 @@ const DashboardPage: React.FC = () => {
                       >
                         ⚡
                       </button>
+                    )}
+                    {processingFileId === file.id && (
+                      <span className="processing-indicator">
+                        Processing...
+                      </span>
                     )}
                     <button
                       onClick={() => handleDelete(file.id, file.filename)}
@@ -216,6 +232,11 @@ const DashboardPage: React.FC = () => {
         <section className="quick-actions">
           <h2>Quick Actions</h2>
           <div className="action-cards">
+            <Link to="/transactions" className="action-card">
+              <span className="action-icon">📝</span>
+              <h3>Transactions</h3>
+              <p>View, edit, and manage your transactions</p>
+            </Link>
             <Link to="/analytics" className="action-card">
               <span className="action-icon">📊</span>
               <h3>View Analytics</h3>

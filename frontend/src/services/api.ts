@@ -125,7 +125,7 @@ export const transactionService = {
   /**
    * Process uploaded file to extract transactions
    */
-  processFile: async (fileId: string): Promise<{ transactionsCount: number }> => {
+  processFile: async (fileId: string): Promise<{ transactionsCount: number; duplicatesSkipped?: number }> => {
     const response = await api.post(`/transactions/process/${fileId}`);
     return response.data;
   },
@@ -157,6 +157,53 @@ export const transactionService = {
   getAnalytics: async (month: number, year: number) => {
     const response = await api.get(`/transactions/analytics/${month}/${year}`);
     return response.data;
+  },
+
+  /**
+   * Update a transaction
+   */
+  updateTransaction: async (transactionId: string, updates: { category?: string; subcategory?: string; description?: string }) => {
+    const response = await api.put(`/transactions/${transactionId}`, updates);
+    return response.data;
+  },
+
+  /**
+   * Delete a transaction
+   */
+  deleteTransaction: async (transactionId: string) => {
+    const response = await api.delete(`/transactions/${transactionId}`);
+    return response.data;
+  },
+
+  /**
+   * Export transactions as CSV
+   */
+  exportTransactions: async (month?: number, year?: number) => {
+    const params = new URLSearchParams();
+    if (month) params.append('month', month.toString());
+    if (year) params.append('year', year.toString());
+
+    const response = await api.get(`/transactions/export?${params.toString()}`, {
+      responseType: 'blob',
+    });
+
+    // Create download link
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `transactions-${month || 'all'}-${year || 'all'}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.URL.revokeObjectURL(url);
+  },
+
+  /**
+   * Get available categories
+   */
+  getCategories: async () => {
+    const response = await api.get('/transactions/categories');
+    return response.data.categories;
   },
 };
 
