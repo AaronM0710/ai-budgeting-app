@@ -4,7 +4,7 @@
  * View, edit, and manage transactions
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { transactionService } from '../services/api';
 import { Link } from 'react-router-dom';
@@ -44,10 +44,26 @@ const TransactionsPage: React.FC = () => {
   const [editCategory, setEditCategory] = useState('');
   const [editDescription, setEditDescription] = useState('');
 
+  const loadTransactions = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await transactionService.getTransactions(
+        selectedMonth,
+        selectedYear,
+        selectedCategory || undefined
+      );
+      setTransactions(data);
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Failed to load transactions');
+    } finally {
+      setLoading(false);
+    }
+  }, [selectedMonth, selectedYear, selectedCategory]);
+
   useEffect(() => {
     loadCategories();
     loadTransactions();
-  }, [selectedMonth, selectedYear, selectedCategory]);
+  }, [loadTransactions]);
 
   const loadCategories = async () => {
     try {
@@ -71,22 +87,6 @@ const TransactionsPage: React.FC = () => {
         { name: 'Income' },
         { name: 'Other' },
       ]);
-    }
-  };
-
-  const loadTransactions = async () => {
-    try {
-      setLoading(true);
-      const data = await transactionService.getTransactions(
-        selectedMonth,
-        selectedYear,
-        selectedCategory || undefined
-      );
-      setTransactions(data);
-    } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to load transactions');
-    } finally {
-      setLoading(false);
     }
   };
 
