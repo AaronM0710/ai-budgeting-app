@@ -104,10 +104,22 @@ async function initializeServer() {
     console.log('✅ Database connection successful');
 
     // Run migrations (create tables if they don't exist)
-    const schemaPath = path.join(__dirname, 'config', 'schema.sql');
-    const schema = fs.readFileSync(schemaPath, 'utf8');
-    await pool.query(schema);
-    console.log('✅ Database schema initialized');
+    try {
+      const schemaPath = path.join(__dirname, 'config', 'schema.sql');
+      console.log('📂 Looking for schema at:', schemaPath);
+
+      if (fs.existsSync(schemaPath)) {
+        const schema = fs.readFileSync(schemaPath, 'utf8');
+        await pool.query(schema);
+        console.log('✅ Database schema initialized');
+      } else {
+        console.warn('⚠️  schema.sql not found, skipping migrations');
+        console.warn('💡 Run migrations manually with: npm run migrate');
+      }
+    } catch (migrationErr) {
+      console.error('⚠️  Migration failed:', migrationErr);
+      console.warn('💡 Server will start anyway, but some features may not work');
+    }
 
     // Start server
     app.listen(PORT, () => {

@@ -5,6 +5,28 @@ const pool = new Pool({
   ssl: { rejectUnauthorized: false }
 });
 
+// Ensure waitlist table exists
+async function ensureTableExists() {
+  const createTableQuery = `
+    CREATE TABLE IF NOT EXISTS waitlist (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      email VARCHAR(255) UNIQUE NOT NULL,
+      name VARCHAR(200),
+      referral_source VARCHAR(100),
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      notified BOOLEAN DEFAULT FALSE
+    );
+    CREATE INDEX IF NOT EXISTS idx_waitlist_email ON waitlist(email);
+    CREATE INDEX IF NOT EXISTS idx_waitlist_created_at ON waitlist(created_at);
+  `;
+
+  try {
+    await pool.query(createTableQuery);
+  } catch (error) {
+    console.error('Table creation error:', error);
+  }
+}
+
 // Validate email format
 function isValidEmail(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -23,6 +45,9 @@ module.exports = async (req, res) => {
 
   if (req.method === 'POST') {
     try {
+      // Ensure table exists before any operations
+      await ensureTableExists();
+
       const { email, name, referral_source } = req.body;
 
       if (!email) {
