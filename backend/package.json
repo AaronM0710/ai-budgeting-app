@@ -5,10 +5,9 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "nodemon src/server.ts",
-    "build": "tsc",
+    "build": "tsc && mkdir -p dist/config && cp src/config/schema.sql dist/config/",
     "start": "node dist/server.js",
     "migrate": "node -r ts-node/register src/config/runMigrations.ts",
-    "postinstall": "npm run migrate",
     "test": "jest"
   },
   "keywords": [

@@ -10,6 +10,8 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
+import fs from 'fs';
+import path from 'path';
 import authRoutes from './routes/authRoutes';
 import uploadRoutes from './routes/uploadRoutes';
 import waitlistRoutes from './routes/waitlistRoutes';
@@ -94,10 +96,18 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 
 // ===== START SERVER =====
 
-// Test database connection before starting
-pool.query('SELECT NOW()')
-  .then(() => {
+// Initialize database and start server
+async function initializeServer() {
+  try {
+    // Test database connection
+    await pool.query('SELECT NOW()');
     console.log('✅ Database connection successful');
+
+    // Run migrations (create tables if they don't exist)
+    const schemaPath = path.join(__dirname, 'config', 'schema.sql');
+    const schema = fs.readFileSync(schemaPath, 'utf8');
+    await pool.query(schema);
+    console.log('✅ Database schema initialized');
 
     // Start server
     app.listen(PORT, () => {
@@ -105,12 +115,14 @@ pool.query('SELECT NOW()')
       console.log(`📍 Environment: ${process.env.NODE_ENV || 'development'}`);
       console.log(`🌐 Health check: http://localhost:${PORT}/health`);
     });
-  })
-  .catch((err) => {
-    console.error('❌ Database connection failed:', err);
+  } catch (err) {
+    console.error('❌ Server initialization failed:', err);
     console.error('💡 Make sure PostgreSQL is running and DATABASE_URL is correct');
     process.exit(1);
-  });
+  }
+}
+
+initializeServer();
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
